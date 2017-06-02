@@ -13,19 +13,22 @@ namespace DiscordianDate
 		private static readonly String[] DayNames = { "Sweetmorn", "Boomtime", "Pungenday", "Prickle-Prickle", "Setting Orange" };
 		private static readonly String[] Holidays = { "Mungday", "Chaoflux", "St. Tib's Day", "Mojoday", "Discoflux", "Syaday",
 			"Confuflux", "Zaraday", "Bureflux", "Maladay", "Afflux" };
+		public const int MAX_DAY_OF_SEASON = 73;
+		public const int YEAR_DIFFERENCE = 1166;
+		public static DiscordianDate MaxValue = new DiscordianDate(DateTime.MaxValue);
 		private static DateTime LocalDate;
 
 		private DiscordianDate(DateTime dt)
 		{
-			Year = dt.Year + 1166;
+			Year = dt.Year + YEAR_DIFFERENCE;
 			YearDay = dt.DayOfYear;
 			isLeap = DateTime.IsLeapYear(dt.Year);
 			int yd = YearDay - 1;
 			if (isLeap && yd > 59)
 				yd--;
-			Season = (yd / 73) + 1;
-			WeekDay = (yd % 5) + 1;
-			SeasonDay = (yd % 73) + 1;
+			Season = (yd / MAX_DAY_OF_SEASON) + 1;
+			WeekDay = (yd % SeasonNames.Length) + 1;
+			SeasonDay = (yd % MAX_DAY_OF_SEASON) + 1;
 		}
 
 		public static String WhichHoliday(DiscordianDate ddate)
