@@ -31,6 +31,35 @@ namespace DiscordianDate
 			SeasonDay = (yd % MAX_DAY_OF_SEASON) + 1;
 		}
 
+		private static Dictionary<int, String> dic = new Dictionary<int, String>()
+		{
+			{5, Holidays[0]},
+			{50, Holidays[1]},
+			{60, isLeap? Holidays[2]:noHoliday},
+			{78, !isLeap? Holidays[3]:noHoliday},
+			{79, isLeap? Holidays[3]:noHoliday},
+			{123, !isLeap? Holidays[4]:noHoliday},
+			{124, isLeap? Holidays[4]:noHoliday},
+			{151, !isLeap? Holidays[5]:noHoliday},
+			{152, isLeap? Holidays[5]:noHoliday},
+			{196, !isLeap? Holidays[6]:noHoliday},
+			{197, isLeap? Holidays[6]:noHoliday},
+			{224, !isLeap? Holidays[7]:noHoliday},
+			{225, isLeap? Holidays[7]:noHoliday},
+			{269, !isLeap? Holidays[8]:noHoliday},
+			{270, isLeap? Holidays[8]:noHoliday},
+			{297, !isLeap? Holidays[9]:noHoliday},
+			{298, isLeap? Holidays[9]:noHoliday},
+			{342, !isLeap? Holidays[10]:noHoliday},
+			{343, isLeap? Holidays[10]:noHoliday}
+		};
+
+		public static String Holyday(DiscordianDate ddate)
+		{
+			String val;
+			return dic.TryGetValue(ddate.YearDay, out val) ? val : noHoliday;
+		}
+
 		public static String WhichHoliday(DiscordianDate ddate)
 		{
 			switch (ddate.YearDay)
@@ -146,7 +175,7 @@ namespace DiscordianDate
 
 		public static List<String> GetPossibleSeasonNames() => new List<string>(SeasonNames);
 
-		public override String ToString() => isLeap && YearDay == 59 ? Holidays[2] + ", " + Year.ToString()
-			: DayNames[WeekDay - 1] + ", " + SeasonNames[Season - 1] + " " + SeasonDay.ToString() + ", " + Year.ToString();
+		public override String ToString() => isLeap && YearDay == 59 ? $"{Holidays[2]}, {Year.ToString()}"
+			: $"{DayNames[WeekDay - 1]}, {SeasonNames[Season - 1]} {SeasonDay.ToString()}, {Year.ToString()}";
 	}
 }
